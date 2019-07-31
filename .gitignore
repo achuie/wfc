@@ -1,3 +1,7 @@
+# Rust stuff
 Cargo.lock
 /target
 **/*.rs.bk
+
+# IntelliJ stuff
+.idea/
