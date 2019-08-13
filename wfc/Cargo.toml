@@ -25,12 +25,3 @@ version = "0.12"
 
 [dependencies.direction]
 version = "0.17"
-
-[lib]
-name = "wavefunctioncollapse"
-crate-type = ["cdylib"]
-path = "src/python_module.rs"
-
-[dependiencies.cpython]
-version = "0.2"
-features = ["extension-module"]

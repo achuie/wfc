@@ -15,6 +15,11 @@
       <sourceFolder url="file://$MODULE_DIR$/wfc/examples" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/wfc/tests" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/wfc/benches" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/python-module/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/python-module/examples" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/python-module/tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/python-module/benches" isTestSource="true" />
+      <excludeFolder url="file://$MODULE_DIR$/python-module/target" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
       <excludeFolder url="file://$MODULE_DIR$/wfc-image/target" />
       <excludeFolder url="file://$MODULE_DIR$/wfc/target" />

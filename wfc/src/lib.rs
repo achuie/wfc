@@ -3,7 +3,6 @@ extern crate direction;
 extern crate grid_2d;
 extern crate hashbrown;
 extern crate rand;
-extern crate cpython;
 
 pub mod orientation;
 pub mod overlapping;
@@ -16,4 +15,3 @@ pub use coord_2d::{Coord, Size};
 pub use orientation::Orientation;
 pub use wfc::*;
 pub use wrap::Wrap;
-mod python_module;

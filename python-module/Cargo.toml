@@ -1,0 +1,13 @@
+[package]
+name = "wavefunctioncollapse"
+version = "0.0.1"
+edition = "2018"
+
+[lib]
+name = "wavefunctioncollapse"
+crate-type = ["cdylib"]
+
+[dependencies.cpython]
+version = "0.3.0"
+default-features = false
+features = ["python27-sys"]

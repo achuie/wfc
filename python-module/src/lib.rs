@@ -1,4 +1,5 @@
-use wfc;
+#[macro_use] extern crate cpython;
+
 use cpython::{PyResult, Python};
 
 py_module_initializer!(wavefunctioncollapse, initwavefunctioncollapse, PyInit_wavefunctioncollapse, |py, m| {

@@ -3,7 +3,7 @@ use direction::{CardinalDirection, CardinalDirectionTable, CardinalDirections};
 use grid_2d::Grid;
 use hashbrown::HashMap;
 use rand::Rng;
-use retry;
+use crate::retry;
 use std::cmp::Ordering;
 use std::collections::BinaryHeap;
 use std::iter;
@@ -11,7 +11,7 @@ use std::marker::PhantomData;
 use std::num::NonZeroU32;
 use std::ops::{Index, IndexMut};
 use std::slice;
-use wrap::{Wrap, WrapXY};
+use crate::wrap::{Wrap, WrapXY};
 
 pub type PatternId = u32;
 

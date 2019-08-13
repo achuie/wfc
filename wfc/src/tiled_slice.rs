@@ -1,7 +1,7 @@
 use coord_2d::*;
 use grid_2d::coord_system::{CoordSystem, XThenY, XThenYIter};
 use grid_2d::*;
-use orientation::Orientation;
+use crate::orientation::Orientation;
 use std::hash::{Hash, Hasher};
 
 #[derive(Clone)]
