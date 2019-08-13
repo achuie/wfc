@@ -19,8 +19,8 @@ use wfc::*;
 pub use wrap::WrapXY;
 
 pub mod retry {
-    pub use wfc_retry::RetryOwn as Retry;
-    pub use wfc_retry::{Forever, NumTimes};
+    pub use crate::wfc_retry::RetryOwn as Retry;
+    pub use crate::wfc_retry::{Forever, NumTimes};
 
     pub trait ImageRetry: Retry {
         type ImageReturn;

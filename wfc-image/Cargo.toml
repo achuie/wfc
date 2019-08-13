@@ -2,6 +2,7 @@
 name = "wfc_image"
 description = "Create patterns for wfc using image files"
 version = "0.9.0"
+edition = "2018"
 authors = ["Stephen Sherratt <stephen@sherra.tt>"]
 license = "MIT"
 readme = "README.md"
