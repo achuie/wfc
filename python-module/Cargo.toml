@@ -11,3 +11,6 @@ crate-type = ["cdylib"]
 version = "0.3.0"
 default-features = false
 features = ["python27-sys", "extension-module-2-7"]
+
+[dependencies.rand]
+version = "0.6"

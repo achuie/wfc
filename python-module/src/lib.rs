@@ -1,7 +1,11 @@
 #[macro_use]
 extern crate cpython;
+extern crate rand;
 
-use cpython::{PyResult, Python};
+use cpython::{PyResult, Python, PyObject};
+use rand::{Rng, SeedableRng};
+use rand::rngs::StdRng;
+use std::cell::RefCell;
 
 py_module_initializer!(
     wavefunctioncollapse,
@@ -15,7 +19,14 @@ py_module_initializer!(
 );
 
 py_class!(class Resolver |py| {
+    data rng: RefCell<StdRng>;
+
     def __new__(_cls) -> PyResult<Resolver> {
-        Resolver::create_instance(py)
+        Resolver::create_instance(py, RefCell::new(StdRng::seed_from_u64(rand::thread_rng().gen())))
+    }
+
+    def set_seed(&self, s: u64) -> PyResult<PyObject> {
+        self.rng(py).replace(StdRng::seed_from_u64(s));
+        Ok(py.None())
     }
 });
