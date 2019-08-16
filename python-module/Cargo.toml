@@ -14,3 +14,7 @@ features = ["python27-sys", "extension-module-2-7"]
 
 [dependencies.rand]
 version = "0.6"
+
+[dependencies.wfc_image]
+path = "../wfc-image"
+version = "0.9"
