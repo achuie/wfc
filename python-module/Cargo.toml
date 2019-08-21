@@ -18,3 +18,9 @@ version = "0.6"
 [dependencies.wfc_image]
 path = "../wfc-image"
 version = "0.9"
+
+[dependencies.image]
+version = "0.21"
+
+[dependencies.coord_2d]
+version = "0.2"

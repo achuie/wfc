@@ -1,13 +1,17 @@
 #[macro_use]
 extern crate cpython;
+extern crate coord_2d;
+extern crate image;
 extern crate rand;
 extern crate wfc_image;
 
-use cpython::{PyInt, PyObject, PyResult, Python};
+use coord_2d::Size;
+use cpython::{PyErr, PyInt, PyObject, PyResult, Python, exc};
 use rand::rngs::StdRng;
 use rand::{Rng, SeedableRng};
-use std::cell::RefCell;
+use std::num::NonZeroU32;
 use wfc_image::*;
+use std::error::Error;
 
 py_module_initializer!(
     wavefunctioncollapse,
@@ -89,16 +93,50 @@ fn orientFromPython(o: usize) -> Vec<Orientation> {
 }
 
 py_class!(class Resolver |py| {
-    data rng: RefCell<StdRng>;
+    data seed: u64;
 
-    def __new__(_cls) -> PyResult<Resolver> {
-        Resolver::create_instance(py, RefCell::new(StdRng::seed_from_u64(rand::thread_rng().gen())))
+    def __new__(_cls, seed: u64) -> PyResult<Resolver> {
+        Resolver::create_instance(
+            py,
+            seed
+        )
     }
 
-    def set_seed(&self, s: u64) -> PyResult<PyObject> {
-        self.rng(py).replace(StdRng::seed_from_u64(s));
-        Ok(py.None())
-    }
+    def generate_image(
+        &self,
+        input_path: &str,
+        pattern_size: u32,
+        output_size: Vec<u32>,
+        orientation: i32,
+        retry: i32,
+        output_path: &str
+    ) -> PyResult<PyObject> {
+        let input_image = image::open(input_path).unwrap();
+        let out_size = Size::new(output_size[0], output_size[1]);
+        let patt_size =
+            NonZeroU32::new(pattern_size).expect("*** Pattern size must not be zero. ***");
+        let orient = orientFromPython(orientation as usize);
+        let mut rng = StdRng::seed_from_u64(*self.seed(py));
 
-    //def generate_image(&self, input_image: str, pattern_size: int, output_size: int, orientation: int)
+        match generate_image_with_rng(
+            &input_image,
+            patt_size,
+            out_size,
+            &orient,
+            WrapXY,
+            ForbidNothing,
+            retry::NumTimes(retry as usize),
+            &mut rng,
+        ) {
+            Err(_) => {
+                eprintln!("*** Too many contradictions. ***");
+                Err(PyErr::new::<exc::TypeError, _>(py, "*** Too many contradictions. ***"))
+            }
+            Ok(output_image) => {
+                println!("*** Saving output image. ***");
+                output_image.save(output_path);
+                Ok(py.None())
+            }
+        }
+    }
 });
