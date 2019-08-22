@@ -118,6 +118,7 @@ py_class!(class Resolver |py| {
         let orient = orientFromPython(orientation as usize);
         let mut rng = StdRng::seed_from_u64(*self.seed(py));
 
+        println!("*** Generating... ***");
         match generate_image_with_rng(
             &input_image,
             patt_size,

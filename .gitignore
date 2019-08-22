@@ -5,3 +5,6 @@ Cargo.lock
 
 # IntelliJ stuff
 .idea/
+
+# libs
+*.so
