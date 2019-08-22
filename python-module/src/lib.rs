@@ -6,12 +6,11 @@ extern crate rand;
 extern crate wfc_image;
 
 use coord_2d::Size;
-use cpython::{PyErr, PyInt, PyObject, PyResult, Python, exc};
+use cpython::{exc, PyErr, PyInt, PyObject, PyResult};
 use rand::rngs::StdRng;
-use rand::{Rng, SeedableRng};
+use rand::SeedableRng;
 use std::num::NonZeroU32;
 use wfc_image::*;
-use std::error::Error;
 
 py_module_initializer!(
     wavefunctioncollapse,
@@ -67,7 +66,7 @@ py_class!(class Orient |py| {
     }
 });
 
-fn orientFromPython(o: usize) -> Vec<Orientation> {
+fn orient_from_python(o: usize) -> Vec<Orientation> {
     let orientations = vec![
         vec![Orientation::Original],
         vec![Orientation::Clockwise90],
@@ -115,7 +114,7 @@ py_class!(class Resolver |py| {
         let out_size = Size::new(output_size[0], output_size[1]);
         let patt_size =
             NonZeroU32::new(pattern_size).expect("*** Pattern size must not be zero. ***");
-        let orient = orientFromPython(orientation as usize);
+        let orient = orient_from_python(orientation as usize);
         let mut rng = StdRng::seed_from_u64(*self.seed(py));
 
         println!("*** Generating... ***");
@@ -130,13 +129,23 @@ py_class!(class Resolver |py| {
             &mut rng,
         ) {
             Err(_) => {
-                eprintln!("*** Too many contradictions. ***");
-                Err(PyErr::new::<exc::TypeError, _>(py, "*** Too many contradictions. ***"))
+                eprintln!("*** Error: too many contradictions. ***");
+                Err(PyErr::new::<exc::TypeError, _>(py, "*** Error: too many contradictions. ***"))
             }
             Ok(output_image) => {
-                println!("*** Saving output image. ***");
-                output_image.save(output_path);
-                Ok(py.None())
+                println!("*** Saving output image... ***");
+                match output_image.save(output_path) {
+                    Err(_) => {
+                        eprintln!("*** Error: could not save image. ***");
+                        Err(PyErr::new::<exc::TypeError, _>(
+                            py,
+                            "*** Error: could not save image. ***",
+                        ))
+                    }
+                    Ok(_) => {
+                        Ok(py.None())
+                    }
+                }
             }
         }
     }
