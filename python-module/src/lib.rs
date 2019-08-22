@@ -117,7 +117,7 @@ py_class!(class Resolver |py| {
         let orient = orient_from_python(orientation as usize);
         let mut rng = StdRng::seed_from_u64(*self.seed(py));
 
-        println!("*** Generating... ***");
+        println!("\tGenerating...");
         match generate_image_with_rng(
             &input_image,
             patt_size,
@@ -129,17 +129,17 @@ py_class!(class Resolver |py| {
             &mut rng,
         ) {
             Err(_) => {
-                eprintln!("*** Error: too many contradictions. ***");
-                Err(PyErr::new::<exc::TypeError, _>(py, "*** Error: too many contradictions. ***"))
+                eprintln!("\t*** Error: too many contradictions. ***");
+                Err(PyErr::new::<exc::TypeError, _>(py, "\t*** Error: too many contradictions. ***"))
             }
             Ok(output_image) => {
-                println!("*** Saving output image... ***");
+                println!("\tSaving output image...");
                 match output_image.save(output_path) {
                     Err(_) => {
-                        eprintln!("*** Error: could not save image. ***");
+                        eprintln!("\t*** Error: could not save image. ***");
                         Err(PyErr::new::<exc::TypeError, _>(
                             py,
-                            "*** Error: could not save image. ***",
+                            "\t*** Error: could not save image. ***",
                         ))
                     }
                     Ok(_) => {
